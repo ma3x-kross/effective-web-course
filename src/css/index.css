@@ -3,6 +3,8 @@ html {
     font-size: 10px;
     line-height: 10px;
     color: #2D3436;
+    font-family: 'Inter';
+    font-weight: 400;
 }
 
 body {
