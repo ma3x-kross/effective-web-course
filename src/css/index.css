@@ -10,6 +10,10 @@ html {
 body {
     margin: 0;
     padding: 0;
+    position: relative;
+    min-width: 320px;
+    overflow-x: hidden;
+    height: auto;
 }
 
 h1, h2, h3 {
@@ -21,6 +25,110 @@ a {
     color: #6C5CE7;
 }
 
-a:hover {
-    text-decoration: underline;
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
 }
+
+/*Navbar*/
+.navbar {
+    width: 100%;
+    height: 96px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .container {
+    height: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar__menu {
+    list-style-type: none;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.navbar__menu li {
+    display: inline-block;
+}
+
+.navbar__menu li a {
+    font-size: 1.8rem;
+    font-weight: 400;
+    display: inline-block;
+    opacity: 0.6;
+    text-decoration: none;
+    transition: all .07s ease-in-out;
+}
+
+.navbar__menu li a:hover {
+    color: #2D3436;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.navbar__menu li span {
+    font-size: 1.8rem;
+    color: #FDCB6E;
+    margin: 16px;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.navbar__wrap {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 4.8rem;
+    line-height: 5.6rem;
+    margin-left: 2px;
+    color: #2D3436;
+    transition: all .07s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.04);
+}
+
+.logo__header {
+    margin-left: 135px;
+}
+
+.sign-in {
+    width: 170px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #2D3436;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 3.6rem;
+    color: #fff;
+}
+
+.sign-in:hover {
+    color: #fff;
+    transform: scale(1.04);
+    box-shadow: 0 2px 4px rgba(45, 52, 54, .5);
+}
+
+.sign-in_navbar {
+    margin-right: 135px;
+}
+
+
