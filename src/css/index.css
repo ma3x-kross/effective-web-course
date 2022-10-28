@@ -151,25 +151,25 @@ a {
     z-index: -1;
 }
 
-.title {
+.main-title {
     text-align: center;
     font-weight: 800;
     font-size: 9.6rem;
     line-height: 10.4rem;
 }
 
-.header__title {
+.header__main-title {
     margin-top: 80px;
 }
 
-.header__title span {
+.header__main-title span {
     color: #E84393;
     text-shadow: 0px 4px 0px #FFFFFF;
     position: relative;
     margin-bottom: 16px;
 }
 
-.header__title span::before {
+.header__main-title span::before {
     content: '';
     background: #55EFC4;
     width: 191px;
@@ -181,14 +181,14 @@ a {
     border-radius: 30px;
 }
 
-.subtitle {
+.title {
     font-weight: 900;
     font-size: 6.4rem;
     line-height: 7.7rem;
     text-align: center;
 }
 
-.header__subtitle {
+.header__title {
     margin-bottom: 64px;
 }
 
