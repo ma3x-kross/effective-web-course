@@ -518,6 +518,13 @@ a {
     font-weight: 700;
     font-size: 1.8rem;
     line-height: 3.2rem;
+    transition: all 0.07s ease-in-out;
+}
+
+.info__card-btn:hover{
+    background-color: #6C5CE7;
+    color: #fff;
+    transform: scale(1.04);
 }
 
 /*Footer*/
