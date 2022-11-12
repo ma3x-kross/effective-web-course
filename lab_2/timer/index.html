@@ -16,15 +16,25 @@
 			</div>
 
 			<div class="timer-inputs">
-				<input type="number" class="timer-input" id="min-input" />
+				<input
+					type="number"
+					class="timer-input"
+					id="min-input"
+					onchange="inputChange()"
+				/>
 				:
-				<input type="number" class="timer-input" id="sec-input" />
+				<input
+					type="number"
+					class="timer-input"
+					id="sec-input"
+					onchange="inputChange()"
+				/>
 			</div>
 
 			<div class="timer-btns">
-				<button class="btn timer-btns">Пуск</button>
-				<button class="btn timer-btns">Стоп</button>
-				<button class="btn timer-btns">Сброс</button>
+				<button class="btn timer-btns start">Пуск</button>
+				<button class="btn timer-btns stop">Стоп</button>
+				<button class="btn timer-btns reset">Сброс</button>
 			</div>
 		</div>
 		<script src="./timer.js"></script>
