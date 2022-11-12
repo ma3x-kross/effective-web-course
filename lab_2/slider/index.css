@@ -36,7 +36,6 @@ html {
 	display: flex;
 	position: relative;
 	left: 0;
-	transition: all 1s ease-in-out;
 }
 
 .dot {
@@ -49,11 +48,6 @@ html {
 
 .dot:last-child {
 	margin: 0;
-}
-
-.dot:hover {
-	transform: scale(1.3);
-	box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.9);
 }
 
 .btn-prev,
