@@ -17,6 +17,7 @@ const Characters: FC = () => {
               name={character.name}
               description={character.description}
               img={character.img}
+              path='/'
             ></MyCard>
           ))}
         </SimpleGrid>
