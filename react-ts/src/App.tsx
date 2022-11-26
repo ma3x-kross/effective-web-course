@@ -4,6 +4,7 @@ import { Outlet, RouteObject, useRoutes } from 'react-router-dom';
 import Header from './components/Header';
 import Characters from './routes/Characters';
 import Comics from './routes/Comics';
+import Series from './routes/Series';
 
 const App: FC = () => {
   const routes: RouteObject[] = [
@@ -18,7 +19,11 @@ const App: FC = () => {
         {
           path: '/comics',
           element: <Comics />
-        }
+        },
+        {
+          path: '/series',
+          element: <Series />
+        },
       ]
     }
   ];
