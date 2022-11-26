@@ -32,6 +32,7 @@ const Header = () => {
           <HStack spacing="30px">
             {pages.map((page, key) => (
               <Box
+                key={page.toString()}
                 color="white"
                 fontWeight="bold"
                 letterSpacing="wide"
