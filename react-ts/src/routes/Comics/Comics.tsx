@@ -1,20 +1,20 @@
 import { Container, SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
 import MyCard from '../../components/MyCard';
-import CHARACTERS from '../../mocks/charactersData';
+import COMICS from '../../mocks/comicsData';
 
-const Characters: FC = () => {
+const Comics: FC = () => {
   {
     return (
       <Container maxW="container.xl" p={6}>
         <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
-          {CHARACTERS.map((character) => (
+          {COMICS.map((el) => (
             <MyCard
-              key={character.id}
-              id={character.id}
-              name={character.name}
-              description={character.description}
-              img={character.img}
+              key={el.id}
+              id={el.id}
+              name={el.name}
+              description={el.description}
+              img={el.img}
             ></MyCard>
           ))}
         </SimpleGrid>
@@ -23,4 +23,4 @@ const Characters: FC = () => {
   }
 };
 
-export default Characters;
+export default Comics;
