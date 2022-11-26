@@ -1,14 +1,30 @@
 import { ChakraProvider, theme } from '@chakra-ui/react';
+import { FC } from 'react';
+import { Outlet, RouteObject, useRoutes } from 'react-router-dom';
 import Header from './components/Header';
+import Characters from './routes/Characters';
 
-import routesConfig from './routes/routesConfig';
+const App: FC = () => {
+  const routes: RouteObject[] = [
+    {
+      path: '/',
+      element: <Outlet />,
+      children: [
+        {
+          index: true,
+          element: <Characters />
+        }
+      ]
+    }
+  ];
 
-function App() {
+  const element = useRoutes(routes);
   return (
     <ChakraProvider theme={theme}>
       <Header />
+      {element}
     </ChakraProvider>
   );
-}
+};
 
 export default App;
