@@ -1,6 +1,7 @@
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Outlet, RouteObject, useRoutes } from 'react-router-dom';
+import Footer from './components/Footer';
 import Header from './components/Header';
 import Characters from './routes/Characters';
 import Comics from './routes/Comics';
@@ -33,6 +34,7 @@ const App: FC = () => {
     <ChakraProvider theme={theme}>
       <Header />
       {element}
+      <Footer />
     </ChakraProvider>
   );
 };
