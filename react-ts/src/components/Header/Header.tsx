@@ -38,7 +38,6 @@ const Header = () => {
                 letterSpacing="wide"
                 fontSize="xl"
                 textTransform="uppercase"
-                sx={{}}
               >
                 <NavLink
                   to={'/' + (page === 'characters' ? '' : page)}
@@ -48,8 +47,8 @@ const Header = () => {
                 </NavLink>
               </Box>
             ))}
+            <ColorModeSwitcher mr={5} />
           </HStack>
-          <ColorModeSwitcher mr={5} />
         </Flex>
       </Container>
     </Box>

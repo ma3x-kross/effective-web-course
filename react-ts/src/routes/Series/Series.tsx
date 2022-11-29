@@ -17,6 +17,7 @@ const Series: FC = () => {
               name={el.name}
               description={el.description}
               img={el.img}
+              path='/series/'
             ></MyCard>
           ))}
         </SimpleGrid>
