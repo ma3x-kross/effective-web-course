@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CardProps } from '../../types/CardProps';
+import { CardProps } from 'types/CardProps';
 
-import SERIES from '../../mocks/seriesData';
+import SERIES from 'mocks/seriesData';
 import {
   Box,
   Container,

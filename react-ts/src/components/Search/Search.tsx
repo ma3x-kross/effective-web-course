@@ -1,7 +1,7 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Flex, IconButton, Input } from '@chakra-ui/react';
 import { FC } from 'react';
-import { SearchProps } from '../../types/SearchProps';
+import { SearchProps } from 'types/SearchProps';
 
 const Search: FC<SearchProps> = ({placeholder}) => {
   {

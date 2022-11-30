@@ -9,7 +9,7 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 
-import Logo from '../../assets/marvel_logo.svg';
+import Logo from 'assets/marvel_logo.svg';
 
 const Footer = () => {
   const CURRENT_YEAR = new Date().getFullYear();

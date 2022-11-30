@@ -1,8 +1,8 @@
 import { Container, SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
-import MyCard from '../../components/MyCard';
-import Search from '../../components/Search';
-import COMICS from '../../mocks/comicsData';
+import MyCard from 'components/MyCard';
+import Search from 'components/Search';
+import COMICS from 'mocks/comicsData';
 
 const Comics: FC = () => {
   {
