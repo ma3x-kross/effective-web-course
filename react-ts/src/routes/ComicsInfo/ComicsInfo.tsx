@@ -1,59 +1,75 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { CardProps } from 'types/CardProps';
-
-import COMICS from 'mocks/comicsData';
-
 import {
   Box,
+  Center,
   Container,
   Divider,
   Heading,
   Image,
   Link,
+  Spinner,
   Text
 } from '@chakra-ui/react';
-
+import comicsStore from 'store/Comics';
+import { observer } from 'mobx-react-lite';
+import { BASE_URL, CHARACTERS, HTTP, SERIES } from 'constants/api';
 
 const ComicsInfo: FC = () => {
-  const [comicsInfo, setPersonInfo] = useState<CardProps | null>(null);
+  const { oneComics, isLoading } = comicsStore;
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
       const numberId = parseInt(id, 10);
-      const result = COMICS.find((comics) => comics.id === numberId);
-      if (result) {
-        setPersonInfo(result);
-        console.log(comicsInfo);
-      }
+      comicsStore.getOneComics(numberId);
     }
-  }, [comicsInfo]);
+  }, [id]);
 
   return (
     <>
-      {comicsInfo && (
+      {isLoading === true ? (
+        <Center m="6">
+          <Spinner size="xl" thickness="4px"></Spinner>
+        </Center>
+      ) : (
         <Container display="flex" maxW="container.xl" p={6}>
           <Image
-            src={comicsInfo?.img}
+            src={`${oneComics.thumbnail.path}.${oneComics.thumbnail.extension}`}
             w="395px"
             h="600px"
             mr={10}
             borderRadius="xl"
           />
           <Box display="flex" flexDirection="column" gap="4">
-            <Heading>{comicsInfo.name}</Heading>
-            <Text mb={3}>{comicsInfo.description}</Text>
+            <Heading>{oneComics.title}</Heading>
+            <Text mb={3}>{oneComics.description}</Text>
             <Divider />
             <Heading size="md">Related characters</Heading>
-            {comicsInfo.ref?.characters?.map((character) => (
-              <Link href={`/${character.id}`}>{character.name}</Link>
+            {oneComics.characters?.items?.map((character) => (
+              <Link
+                key={character.name}
+                href={`/${character.resourceURI.replace(
+                  `${HTTP + BASE_URL + CHARACTERS}/`,
+                  ''
+                )}`}
+              >
+                {character.name}
+              </Link>
             ))}
             <Divider />
             <Heading size="md">Related series</Heading>
-            {comicsInfo.ref?.series?.map((series) => (
-              <Link href={`/series/${series.id}`}>{series.name}</Link>
-            ))}
+            {
+              <Link
+                key={oneComics.series.name}
+                href={`/${SERIES}/${oneComics.series.resourceURI.replace(
+                  `${HTTP + BASE_URL + SERIES}/`,
+                  ''
+                )}`}
+              >
+                {oneComics.series.name}
+              </Link>
+            }
           </Box>
         </Container>
       )}
@@ -61,4 +77,4 @@ const ComicsInfo: FC = () => {
   );
 };
 
-export default ComicsInfo;
+export default observer(ComicsInfo);
