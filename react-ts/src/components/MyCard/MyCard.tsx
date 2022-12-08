@@ -11,7 +11,10 @@ const MyCard: FC<CardProps> = ({ id, name, description, img, path }) => {
     };
     return (
       <Card maxW="sm" _hover={{ shadow: 'outline', cursor: 'pointer' }}>
-        <CardBody onClick={handleClick}>
+        <CardBody
+          title={description ? description : 'No description'}
+          onClick={handleClick}
+        >
           <Image
             width="250px"
             height="380px"
@@ -21,7 +24,6 @@ const MyCard: FC<CardProps> = ({ id, name, description, img, path }) => {
           />
           <Stack mt="6" spacing="3">
             <Heading size="md">{name}</Heading>
-            <Text>{description}</Text>
           </Stack>
         </CardBody>
       </Card>
