@@ -8,6 +8,7 @@ import {
   Heading,
   Image,
   Link,
+  SimpleGrid,
   Spinner,
   Text
 } from '@chakra-ui/react';
@@ -46,30 +47,34 @@ const ComicsInfo: FC = () => {
             <Text mb={3}>{oneComics.description}</Text>
             <Divider />
             <Heading size="md">Related characters</Heading>
-            {oneComics.characters?.items?.map((character) => (
-              <Link
-                key={character.name}
-                href={`/${character.resourceURI.replace(
-                  `${HTTP + BASE_URL + CHARACTERS}/`,
-                  ''
-                )}`}
-              >
-                {character.name}
-              </Link>
-            ))}
+            <SimpleGrid columns={2} spacingX="6" spacingY="2">
+              {oneComics.characters?.items?.map((character) => (
+                <Link
+                  key={character.name}
+                  href={`/${character.resourceURI.replace(
+                    `${HTTP + BASE_URL + CHARACTERS}/`,
+                    ''
+                  )}`}
+                >
+                  {character.name}
+                </Link>
+              ))}
+            </SimpleGrid>
             <Divider />
             <Heading size="md">Related series</Heading>
-            {
-              <Link
-                key={oneComics.series.name}
-                href={`/${SERIES}/${oneComics.series.resourceURI.replace(
-                  `${HTTP + BASE_URL + SERIES}/`,
-                  ''
-                )}`}
-              >
-                {oneComics.series.name}
-              </Link>
-            }
+            <SimpleGrid columns={2} spacingX="6" spacingY="2">
+              {
+                <Link
+                  key={oneComics.series.name}
+                  href={`/${SERIES}/${oneComics.series.resourceURI.replace(
+                    `${HTTP + BASE_URL + SERIES}/`,
+                    ''
+                  )}`}
+                >
+                  {oneComics.series.name}
+                </Link>
+              }
+            </SimpleGrid>
           </Box>
         </Container>
       )}

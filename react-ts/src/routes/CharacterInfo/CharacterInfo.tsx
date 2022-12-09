@@ -8,6 +8,7 @@ import {
   Heading,
   Image,
   Link,
+  SimpleGrid,
   Spinner,
   Text
 } from '@chakra-ui/react';
@@ -46,30 +47,35 @@ const CharacterInfo: FC = () => {
             <Text mb={3}>{oneCharacter.description}</Text>
             <Divider />
             <Heading size="md">Related comics</Heading>
-            {oneCharacter.comics?.items?.map((comics) => (
-              <Link
-                key={comics.name}
-                href={`/${COMICS}/${comics.resourceURI.replace(
-                  `${HTTP + BASE_URL + COMICS}/`,
-                  ''
-                )}`}
-              >
-                {comics.name}
-              </Link>
-            ))}
+            <SimpleGrid columns={2} spacingX="6" spacingY="2">
+              {oneCharacter.comics?.items?.map((comics) => (
+                <Link
+                  key={comics.name}
+                  href={`/${COMICS}/${comics.resourceURI.replace(
+                    `${HTTP + BASE_URL + COMICS}/`,
+                    ''
+                  )}`}
+                >
+                  {comics.name}
+                </Link>
+              ))}
+            </SimpleGrid>
+
             <Divider />
             <Heading size="md">Related series</Heading>
-            {oneCharacter.series?.items?.map((series) => (
-              <Link
-                key={series.name}
-                href={`/${SERIES}/${series.resourceURI.replace(
-                  `${HTTP + BASE_URL + SERIES}/`,
-                  ''
-                )}`}
-              >
-                {series.name}
-              </Link>
-            ))}
+            <SimpleGrid columns={2} spacingX="6" spacingY="2">
+              {oneCharacter.series?.items?.map((series) => (
+                <Link
+                  key={series.name}
+                  href={`/${SERIES}/${series.resourceURI.replace(
+                    `${HTTP + BASE_URL + SERIES}/`,
+                    ''
+                  )}`}
+                >
+                  {series.name}
+                </Link>
+              ))}
+            </SimpleGrid>
           </Box>
         </Container>
       )}
