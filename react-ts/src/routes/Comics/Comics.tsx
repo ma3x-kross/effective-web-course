@@ -15,7 +15,7 @@ const Comics: FC = () => {
 
     return (
       <Container maxW="container.xl" p={6}>
-        <Search placeholder="Search for Comics by name" />
+        <Search placeholder="Search for Comics by name" pageName='comics'/>
         {isLoading === true ? (
           <Center>
             <Spinner size="xl" thickness="4px"></Spinner>

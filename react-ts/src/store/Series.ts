@@ -27,7 +27,7 @@ class Series {
       this.isLoading = true;
       const series = await getApiResource({ url: SERIES, offset });
       runInAction(() => {
-        this.series = series;
+        this.series = series.results;
       });
     } finally {
       runInAction(() => {
@@ -53,7 +53,21 @@ class Series {
       this.isLoading = true;
       const oneSeries = await getApiResource({ url: `${SERIES}/${id}` });
       runInAction(() => {
-        this.oneSeries = oneSeries[0];
+        this.oneSeries = oneSeries.results[0];
+      });
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  async getSeriesByName(titleStartsWith: string) {
+    try {
+      this.isLoading = true;
+      const series = await getApiResource({ url: SERIES, titleStartsWith});
+      runInAction(() => {
+        this.series = series.results;
       });
     } finally {
       runInAction(() => {

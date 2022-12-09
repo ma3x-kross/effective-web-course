@@ -27,7 +27,7 @@ class Comics {
       this.isLoading = true;
       const comics = await getApiResource({ url: COMICS, offset });
       runInAction(() => {
-        this.comics = comics;
+        this.comics = comics.results;
       });
     } finally {
       runInAction(() => {
@@ -56,7 +56,21 @@ class Comics {
       this.isLoading = true;
       const oneComics = await getApiResource({ url: `${COMICS}/${id}` });
       runInAction(() => {
-        this.oneComics = oneComics[0];
+        this.oneComics = oneComics.results[0];
+      });
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  async getComicsByName(titleStartsWith: string) {
+    try {
+      this.isLoading = true;
+      const comics = await getApiResource({ url: COMICS, titleStartsWith });
+      runInAction(() => {
+        this.comics = comics.results;
       });
     } finally {
       runInAction(() => {

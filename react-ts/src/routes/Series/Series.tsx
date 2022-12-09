@@ -15,7 +15,7 @@ const Series: FC = () => {
 
     return (
       <Container maxW="container.xl" p={6}>
-        <Search placeholder="Search for Series by name" />
+        <Search placeholder="Search for Series by name" pageName='series'/>
         {isLoading === true ? (
           <Center>
             <Spinner size="xl" thickness="4px"></Spinner>

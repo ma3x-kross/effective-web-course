@@ -13,16 +13,21 @@ const instance = axios.create({
 interface IResource {
   url: string;
   offset?: number;
+  search?: string;
+  nameStartsWith?: string;
+  titleStartsWith?: string
 }
 
-export const getApiResource = async ({ url, offset }: IResource) => {
+export const getApiResource = async ({ url, offset, nameStartsWith, titleStartsWith }: IResource) => {
   try {
     const res = await instance.get(url, {
       params: {
-        offset
+        offset,
+        nameStartsWith,
+        titleStartsWith
       }
     });
-    return res.data.data.results;
+    return res.data.data;
   } catch (error) {
     console.error(error);
     return false;

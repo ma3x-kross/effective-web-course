@@ -27,7 +27,7 @@ class Character {
       this.isLoading = true;
       const characters = await getApiResource({ url: CHARACTERS, offset });
       runInAction(() => {
-        this.characters = characters;
+        this.characters = characters.results;
       });
     } finally {
       runInAction(() => {
@@ -53,7 +53,21 @@ class Character {
       this.isLoading = true;
       const oneCharacter = await getApiResource({ url: `${CHARACTERS}/${id}` });
       runInAction(() => {
-        this.oneCharacter = oneCharacter[0];
+        this.oneCharacter = oneCharacter.results[0];
+      });
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  async getCharactersByName(nameStartsWith: string) {
+    try {
+      this.isLoading = true;
+      const characters = await getApiResource({ url: CHARACTERS, nameStartsWith});
+      runInAction(() => {
+        this.characters = characters.results;
       });
     } finally {
       runInAction(() => {
