@@ -53,6 +53,7 @@ class Series {
       this.isLoading = true;
       const oneSeries = await getApiResource({ url: `${SERIES}/${id}` });
       runInAction(() => {
+        if(oneSeries)
         this.oneSeries = oneSeries.results[0];
       });
     } finally {

@@ -40,7 +40,7 @@ const Header = () => {
                 textTransform="uppercase"
               >
                 <NavLink
-                  to={'/' + (page === 'characters' ? '' : page)}
+                  to={'/' +  page}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
                   {page}

@@ -56,6 +56,7 @@ class Comics {
       this.isLoading = true;
       const oneComics = await getApiResource({ url: `${COMICS}/${id}` });
       runInAction(() => {
+        if(oneComics)
         this.oneComics = oneComics.results[0];
       });
     } finally {

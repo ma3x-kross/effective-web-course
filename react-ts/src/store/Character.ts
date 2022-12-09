@@ -53,6 +53,7 @@ class Character {
       this.isLoading = true;
       const oneCharacter = await getApiResource({ url: `${CHARACTERS}/${id}` });
       runInAction(() => {
+        if(oneCharacter)
         this.oneCharacter = oneCharacter.results[0];
       });
     } finally {

@@ -35,7 +35,7 @@ const Characters: FC = () => {
                   name={name}
                   description={description}
                   img={`${path}.${extension}`}
-                  path="/"
+                  path="/characters/"
                 ></MyCard>
               )
             )}
