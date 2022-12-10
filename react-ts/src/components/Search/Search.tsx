@@ -18,21 +18,21 @@ const Search: FC<SearchProps> = ({ placeholder, pageName }) => {
 
     useEffect(() => {
       if (debouncedSearchValue) {
+        characterStore.setPage(1)
         switch (pageName) {
           case 'characters':
             {
-              characterStore.getCharactersByName(debouncedSearchValue);
-              console.log(debouncedSearchValue);
+              characterStore.getCharactersByName(debouncedSearchValue, 0);
             }
             break;
           case 'comics':
             {
-              comicsStore.getComicsByName(debouncedSearchValue);
+              comicsStore.getComicsByName(debouncedSearchValue, 0);
             }
             break;
           case 'series':
             {
-              seriesStore.getSeriesByName(debouncedSearchValue);
+              seriesStore.getSeriesByName(debouncedSearchValue, 0);
             }
             break;
           default: {

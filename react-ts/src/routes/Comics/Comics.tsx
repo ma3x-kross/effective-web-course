@@ -5,24 +5,31 @@ import Search from 'components/Search';
 import { IComics } from 'types/comics';
 import comicsStore from 'store/Comics';
 import { observer } from 'mobx-react-lite';
+import Pagination from 'components/Pagination';
+import { COMICS } from 'constants/api';
 
 const Comics: FC = () => {
-  const { comics, isLoading } = comicsStore;
+  const { comics, isLoading, currentPage, searchValue } = comicsStore;
   
   useEffect(() => {
-      comicsStore.getAllComics(0); //offset
-    }, []);
+    if (searchValue) {
+      comicsStore.getComicsByName(searchValue, currentPage - 1);
+    } else {
+      comicsStore.getAllComics(currentPage - 1);
+    }
+      comicsStore.getAllComics(0);
+    }, [currentPage]);
 
     return (
       <Container maxW="container.xl" p={6}>
-        <Search placeholder="Search for Comics by name" pageName='comics'/>
+        <Search placeholder="Search for Comics by name" pageName="comics" />
         {isLoading === true ? (
           <Center>
             <Spinner size="xl" thickness="4px"></Spinner>
-          </Center> 
+          </Center>
         ) : (
           <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
-            {comics.map(
+            {comics.results.map(
               ({
                 id,
                 title,
@@ -41,6 +48,13 @@ const Comics: FC = () => {
             )}
           </SimpleGrid>
         )}
+        <Center>
+          <Pagination
+            totalCards={comics.total}
+            currentPage={currentPage}
+            pageName={COMICS}
+          />
+        </Center>
       </Container>
     );
 };

@@ -3,31 +3,41 @@ import { SERIES } from 'constants/api';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { IOneSeries, ISeries } from 'types/series';
 
+interface ICharactersApi {
+  offset: number;
+  limit: number;
+  total: number;
+  count: number;
+  results: ISeries[];
+}
+
 class Series {
   constructor() {
     makeAutoObservable(this);
   }
 
+  series: ICharactersApi = {
+    offset: 0,
+    limit: 0,
+    total: 0,
+    count: 0,
+    results: []
+  };
+
   isLoading: boolean = false;
+  currentPage: number = 1;
+  searchValue: string = '';
 
-  series: Array<ISeries> = [
-    {
-      id: 0,
-      title: '',
-      description: '',
-      thumbnail: {
-        extension: '',
-        path: ''
-      }
-    }
-  ];
+  setPage(page: number) {
+    this.currentPage = page;
+  }
 
-  async getAllSeries(offset: number) {
+  async getAllSeries(page: number) {
     try {
       this.isLoading = true;
-      const series = await getApiResource({ url: SERIES, offset });
+      const series = await getApiResource({ url: SERIES, offset: page * 20 });
       runInAction(() => {
-        this.series = series.results;
+        this.series = series;
       });
     } finally {
       runInAction(() => {
@@ -53,8 +63,7 @@ class Series {
       this.isLoading = true;
       const oneSeries = await getApiResource({ url: `${SERIES}/${id}` });
       runInAction(() => {
-        if(oneSeries)
-        this.oneSeries = oneSeries.results[0];
+        if (oneSeries) this.oneSeries = oneSeries.results[0];
       });
     } finally {
       runInAction(() => {
@@ -63,12 +72,17 @@ class Series {
     }
   }
 
-  async getSeriesByName(titleStartsWith: string) {
+  async getSeriesByName(titleStartsWith: string, page: number) {
     try {
       this.isLoading = true;
-      const series = await getApiResource({ url: SERIES, titleStartsWith});
+      this.searchValue = titleStartsWith;
+      const series = await getApiResource({
+        url: SERIES,
+        titleStartsWith,
+        offset: page * 20
+      });
       runInAction(() => {
-        this.series = series.results;
+        this.series = series;
       });
     } finally {
       runInAction(() => {

@@ -5,13 +5,21 @@ import Search from 'components/Search';
 import { ICharacters } from 'types/character';
 import { observer } from 'mobx-react-lite';
 import characterStore from 'store/Character';
+import Pagination from 'components/Pagination';
+import { CHARACTERS } from 'constants/api';
 
 const Characters: FC = () => {
-  const {characters, isLoading} = characterStore
-  
+  const {characters, isLoading, currentPage, searchValue} = characterStore
+
     useEffect(() => {
-      characterStore.getCharacters(0);//offset
-    }, []);
+      if(searchValue){
+        characterStore.getCharactersByName(searchValue, (currentPage-1))
+      }
+      else{
+        characterStore.getCharacters((currentPage-1));
+      }
+      
+    }, [currentPage]);
   
     return (
       <Container maxW="container.xl" p={6}>
@@ -21,8 +29,9 @@ const Characters: FC = () => {
             <Spinner size="xl" thickness="4px"></Spinner>
           </Center>
         ) : (
+          
           <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
-            {characters.map(
+            {characters.results.map(
               ({
                 id,
                 name,
@@ -41,6 +50,9 @@ const Characters: FC = () => {
             )}
           </SimpleGrid>
         )}
+        <Center>
+          <Pagination totalCards={characters.total} currentPage={currentPage} pageName={CHARACTERS}/>
+        </Center>
       </Container>
     );
 };
