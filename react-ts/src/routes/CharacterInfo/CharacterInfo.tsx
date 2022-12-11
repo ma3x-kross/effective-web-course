@@ -1,62 +1,95 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { CardProps } from '../../types/CardProps';
-
-import CHARACTERS from '../../mocks/charactersData';
 import {
   Box,
+  Center,
   Container,
   Divider,
   Heading,
   Image,
   Link,
+  SimpleGrid,
+  Spinner,
   Text
 } from '@chakra-ui/react';
+import characterStore from 'store/Character';
+import { observer } from 'mobx-react-lite';
+import { BASE_URL, COMICS, HTTP, SERIES } from 'constants/api';
+import NotFound from 'routes/NotFound';
 
 const CharacterInfo: FC = () => {
-  const [characterInfo, setPersonInfo] = useState<CardProps | null>(null);
+  const { oneCharacter, isLoading } = characterStore;
   const { id } = useParams();
 
   useEffect(() => {
     if (id) {
       const numberId = parseInt(id, 10);
-      const result = CHARACTERS.find((character) => character.id === numberId);
-      if (result) {
-        setPersonInfo(result);
-        console.log(characterInfo);
-      }
+      characterStore.getOneCharacter(numberId);
     }
-  }, [characterInfo]);
+  }, [id]);
 
   return (
     <>
-      {characterInfo && (
-        <Container display="flex" maxW="container.xl" p={6}>
-          <Image
-            src={characterInfo?.img}
-            w="395px"
-            h="600px"
-            mr={10}
-            borderRadius="xl"
-          />
-          <Box display="flex" flexDirection="column" gap="4">
-            <Heading>{characterInfo.name}</Heading>
-            <Text mb={3}>{characterInfo.description}</Text>
-            <Divider />
-            <Heading size="md">Related comics</Heading>
-            {characterInfo.ref?.comics?.map((comics) => (
-              <Link href={`/comics/${comics.id}`}>{comics.name}</Link>
-            ))}
-            <Divider />
-            <Heading size="md">Related series</Heading>
-            {characterInfo.ref?.series?.map((series) => (
-              <Link href={`/series/${series.id}`}>{series.name}</Link>
-            ))}
-          </Box>
-        </Container>
+      {oneCharacter.id ? (
+        isLoading === true ? (
+          <Center m="6">
+            <Spinner size="xl" thickness="4px"></Spinner>
+          </Center>
+        ) : (
+          <Container display="flex" maxW="container.xl" p={6}>
+            <Image
+              src={`${oneCharacter.thumbnail.path}.${oneCharacter.thumbnail.extension}`}
+              w="395px"
+              h="600px"
+              mr={10}
+              borderRadius="xl"
+            />
+            <Box display="flex" flexDirection="column" gap="4">
+              <Heading>{oneCharacter.name}</Heading>
+              <Text mb={3}>{oneCharacter.description}</Text>
+              <Divider />
+              <Heading size="md">Related comics</Heading>
+              <SimpleGrid columns={2} spacingX="6" spacingY="2">
+                {oneCharacter.comics?.items?.map((comics) => (
+                  <Link
+                    key={comics.name}
+                    href={`/${COMICS}/${comics.resourceURI.replace(
+                      `${HTTP + BASE_URL + COMICS}/`,
+                      ''
+                    )}`}
+                  >
+                    {comics.name}
+                  </Link>
+                ))}
+              </SimpleGrid>
+
+              <Divider />
+              <Heading size="md">Related series</Heading>
+              <SimpleGrid columns={2} spacingX="6" spacingY="2">
+                {oneCharacter.series?.items?.map((series) => (
+                  <Link
+                    key={series.name}
+                    href={`/${SERIES}/${series.resourceURI.replace(
+                      `${HTTP + BASE_URL + SERIES}/`,
+                      ''
+                    )}`}
+                  >
+                    {series.name}
+                  </Link>
+                ))}
+              </SimpleGrid>
+            </Box>
+          </Container>
+        )
+      ) : isLoading === true ? (
+        <Center m="6">
+          <Spinner size="xl" thickness="4px"></Spinner>
+        </Center>
+      ) : (
+        <NotFound />
       )}
     </>
   );
 };
 
-export default CharacterInfo;
+export default observer(CharacterInfo);

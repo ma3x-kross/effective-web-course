@@ -1,29 +1,62 @@
-import { Container, SimpleGrid } from '@chakra-ui/react';
-import { FC } from 'react';
-import MyCard from '../../components/MyCard';
-import Search from '../../components/Search';
-import COMICS from '../../mocks/comicsData';
+import { Center, Container, SimpleGrid, Spinner } from '@chakra-ui/react';
+import { FC, useEffect } from 'react';
+import MyCard from 'components/MyCard';
+import Search from 'components/Search';
+import { IComics } from 'types/comics';
+import comicsStore from 'store/Comics';
+import { observer } from 'mobx-react-lite';
+import Pagination from 'components/Pagination';
+import { COMICS } from 'constants/api';
 
 const Comics: FC = () => {
-  {
+  const { comics, isLoading, currentPage, searchValue } = comicsStore;
+  
+  useEffect(() => {
+    if (searchValue) {
+      comicsStore.getComicsByName(searchValue, currentPage - 1);
+    } else {
+      comicsStore.getAllComics(currentPage - 1);
+    }
+      comicsStore.getAllComics(0);
+    }, [currentPage]);
+
     return (
       <Container maxW="container.xl" p={6}>
-        <Search placeholder="Search for Comics by name" />
-        <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
-          {COMICS.map((el) => (
-            <MyCard
-              key={el.id}
-              id={el.id}
-              name={el.name}
-              description={el.description}
-              img={el.img}
-              path='/comics/'
-            ></MyCard>
-          ))}
-        </SimpleGrid>
+        <Search placeholder="Search for Comics by name" pageName="comics" />
+        {isLoading === true ? (
+          <Center>
+            <Spinner size="xl" thickness="4px"></Spinner>
+          </Center>
+        ) : (
+          <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
+            {comics.results.map(
+              ({
+                id,
+                title,
+                description,
+                thumbnail: { extension, path }
+              }: IComics) => (
+                <MyCard
+                  key={id}
+                  id={id}
+                  name={title}
+                  description={description}
+                  img={`${path}.${extension}`}
+                  path="/comics/"
+                ></MyCard>
+              )
+            )}
+          </SimpleGrid>
+        )}
+        <Center>
+          <Pagination
+            totalCards={comics.total}
+            currentPage={currentPage}
+            pageName={COMICS}
+          />
+        </Center>
       </Container>
     );
-  }
 };
 
-export default Comics;
+export default observer(Comics);

@@ -1,4 +1,4 @@
-import { CardProps } from "../types/CardProps"
+import { CardProps } from "types/CardProps"
 
 
 const CHARACTERS: Array<CardProps> = [

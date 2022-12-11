@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 
-import Logo from '../../assets/marvel_logo.svg';
+import Logo from 'assets/marvel_logo.svg';
 import { NavLink } from 'react-router-dom';
 const Header = () => {
   const { colorMode } = useColorMode();
@@ -40,7 +40,7 @@ const Header = () => {
                 textTransform="uppercase"
               >
                 <NavLink
-                  to={'/' + (page === 'characters' ? '' : page)}
+                  to={'/' +  page}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
                   {page}
