@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      mt="20px"
+      mt="85px"
       py={2}
       bg={colorMode === 'dark' ? 'gray.900' : 'gray.400'}
     >
