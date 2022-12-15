@@ -1,7 +1,9 @@
-import { Center, Divider, Heading, Image, Text } from '@chakra-ui/react';
+import { Center, Heading, Image, Text } from '@chakra-ui/react';
 import img from 'assets/thanos.jpg';
+import { useTranslation } from 'react-i18next';
 
 const NotFound = () => {
+  const {t} = useTranslation()
   return (
     <Center display="flex" flexDirection="column" m="6">
       <Heading fontWeight={900} size="4xl">
@@ -15,7 +17,7 @@ const NotFound = () => {
         m="6"
       ></Image>
       <Text fontWeight={900} fontSize="3xl">
-        Page not found, perhaps it is the consequences of Thanos' snap
+        {t('notFound')}
       </Text>
     </Center>
   );

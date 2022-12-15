@@ -4,13 +4,22 @@ import {
   Image,
   Flex,
   useColorMode,
-  HStack
+  HStack,
+  Button
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-
 import Logo from 'assets/marvel_logo.svg';
 import { NavLink } from 'react-router-dom';
+import {useTranslation} from 'react-i18next'
+
+const lngs = {
+  en: {nativeName: 'Eng'},
+  ru: {nativeName: 'Рус'}
+}
+
 const Header = () => {
+  const {t, i18n} = useTranslation()
+
   const { colorMode } = useColorMode();
 
   const pages = ['characters', 'comics', 'series'];
@@ -40,13 +49,25 @@ const Header = () => {
                 textTransform="uppercase"
               >
                 <NavLink
-                  to={'/' +  page}
+                  to={'/' + page}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  {page}
+                  {t(page)}
                 </NavLink>
               </Box>
             ))}
+            <div>
+              {Object.keys(lngs).map((lng) => (
+                <Button
+                fontSize='lg'
+                  key={lng}
+                  onClick={() => i18n.changeLanguage(lng)}
+                  disabled={i18n.resolvedLanguage === lng}
+                >
+                  {lngs[lng].nativeName}
+                </Button>
+              ))}
+            </div>
             <ColorModeSwitcher mr={5} />
           </HStack>
         </Flex>

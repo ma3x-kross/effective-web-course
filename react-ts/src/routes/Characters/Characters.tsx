@@ -10,6 +10,7 @@ import { ItemContainer, ListContainer } from 'components/GridComponent';
 import { getApiResource } from 'api/network';
 import NotFound from 'routes/NotFound';
 import { CHARACTERS } from 'constants/api';
+import { useTranslation } from 'react-i18next';
 
 const Characters: FC = () => {
   const { searchValue, offset } = characterStore;
@@ -18,6 +19,8 @@ const Characters: FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
+
+  const {t} = useTranslation()
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -184,7 +187,7 @@ const Characters: FC = () => {
             <Spinner size="lg" thickness="4px"></Spinner>
           ) : (
             <Button size="lg" disabled={loading} onClick={loadMore}>
-              Press to load more
+              {t('loadMore')}
             </Button>
           )}
         </>
@@ -194,7 +197,7 @@ const Characters: FC = () => {
   return (
     <Container maxW="container.xl" p={6}>
       <Search
-        placeholder="Search for Characters by name"
+        placeholder="charactersSearch"
         pageName="characters"
       />
       {result ? <Results /> : <NotFound />}

@@ -10,6 +10,7 @@ import { ItemContainer, ListContainer } from 'components/GridComponent';
 import { getApiResource } from 'api/network';
 import NotFound from 'routes/NotFound';
 import { SERIES } from 'constants/api';
+import { useTranslation } from 'react-i18next';
 
 const Series: FC = () => {
   const { searchValue, offset } = seriesStore;
@@ -18,6 +19,8 @@ const Series: FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
+
+   const { t } = useTranslation();
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -186,7 +189,7 @@ const Series: FC = () => {
             <Spinner size="lg" thickness="4px"></Spinner>
           ) : (
             <Button size="lg" disabled={loading} onClick={loadMore}>
-              Press to load more
+              {t('loadMore')}
             </Button>
           )}
         </>
@@ -196,7 +199,7 @@ const Series: FC = () => {
   return (
     <Container maxW="container.xl" p={6}>
       <Search
-        placeholder="Search for Series by name"
+        placeholder="seriesSearch"
         pageName="series"
       />
       {result ? <Results /> : <NotFound />}

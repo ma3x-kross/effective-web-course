@@ -16,10 +16,13 @@ import characterStore from 'store/Character';
 import { observer } from 'mobx-react-lite';
 import { BASE_URL, COMICS, HTTP, SERIES } from 'constants/api';
 import NotFound from 'routes/NotFound';
+import { useTranslation } from 'react-i18next';
 
 const CharacterInfo: FC = () => {
   const { oneCharacter, isLoading } = characterStore;
   const { id } = useParams();
+
+   const { t } = useTranslation();
 
   useEffect(() => {
     if (id) {
@@ -48,7 +51,7 @@ const CharacterInfo: FC = () => {
               <Heading>{oneCharacter.name}</Heading>
               <Text mb={3}>{oneCharacter.description}</Text>
               <Divider />
-              <Heading size="md">Related comics</Heading>
+              <Heading size="md">{t('relatedComics')}</Heading>
               <SimpleGrid columns={2} spacingX="6" spacingY="2">
                 {oneCharacter.comics?.items?.map((comics) => (
                   <Link
@@ -64,7 +67,7 @@ const CharacterInfo: FC = () => {
               </SimpleGrid>
 
               <Divider />
-              <Heading size="md">Related series</Heading>
+              <Heading size="md">{t('relatedSeries')}</Heading>
               <SimpleGrid columns={2} spacingX="6" spacingY="2">
                 {oneCharacter.series?.items?.map((series) => (
                   <Link

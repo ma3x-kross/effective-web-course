@@ -10,6 +10,7 @@ import { getApiResource } from 'api/network';
 import { VirtuosoGrid } from 'react-virtuoso';
 import { ItemContainer, ListContainer } from 'components/GridComponent';
 import NotFound from 'routes/NotFound';
+import { useTranslation } from 'react-i18next';
 
 const Comics: FC = () => {
   const { searchValue, offset } = comicsStore;
@@ -18,6 +19,8 @@ const Comics: FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
+
+   const { t } = useTranslation();
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -187,7 +190,7 @@ const Comics: FC = () => {
             <Spinner size="lg" thickness="4px"></Spinner>
           ) : (
             <Button size="lg" disabled={loading} onClick={loadMore}>
-              Press to load more
+              {t('loadMore')}
             </Button>
           )}
         </>
@@ -197,7 +200,7 @@ const Comics: FC = () => {
   return (
     <Container maxW="container.xl" p={6}>
       <Search
-        placeholder="Search for Comics by name"
+        placeholder="comicsSearch"
         pageName="comics"
       />
       {result ? <Results /> : <NotFound />}
