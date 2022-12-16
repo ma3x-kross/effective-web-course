@@ -14,6 +14,10 @@ import { useTranslation } from 'react-i18next';
 import Favorite from 'components/Favorite';
 import { useState } from 'react';
 
+import characterStore from 'store/Character';
+import comicsStore from 'store/Comics';
+import seriesStore from 'store/Series';
+
 const Header = () => {
   const [langs, SetLangs] = useState('en');
   const { t, i18n } = useTranslation();
@@ -47,6 +51,23 @@ const Header = () => {
                 textTransform="uppercase"
               >
                 <NavLink
+                  onClick={() => {
+                    switch (page) {
+                      case 'characters':
+                        {
+                          characterStore.setOffset(0);
+                        }
+                        break;
+                      case 'comics':
+                        {
+                          comicsStore.setOffset(0);
+                        }
+                        break;
+                      case 'series': {
+                        seriesStore.setOffset(0);
+                      }
+                    }
+                  }}
                   to={'/' + page}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
@@ -69,7 +90,7 @@ const Header = () => {
                 }
               }}
             >
-              {langs==='en'?('рус'):('en')}
+              {langs === 'en' ? 'рус' : 'en'}
             </Button>
             <ColorModeSwitcher mr={5} />
           </HStack>
