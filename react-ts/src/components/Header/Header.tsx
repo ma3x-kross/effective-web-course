@@ -12,13 +12,10 @@ import Logo from 'assets/marvel_logo.svg';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Favorite from 'components/Favorite';
-
-const lngs = {
-  en: { nativeName: 'Eng' },
-  ru: { nativeName: 'Рус' }
-};
+import { useState } from 'react';
 
 const Header = () => {
+  const [langs, SetLangs] = useState('en');
   const { t, i18n } = useTranslation();
 
   const { colorMode } = useColorMode();
@@ -57,19 +54,23 @@ const Header = () => {
                 </NavLink>
               </Box>
             ))}
-            <div>
-              {Object.keys(lngs).map((lng) => (
-                <Button
-                  fontSize="lg"
-                  key={lng}
-                  onClick={() => i18n.changeLanguage(lng)}
-                  disabled={i18n.resolvedLanguage === lng}
-                >
-                  {lngs[lng].nativeName}
-                </Button>
-              ))}
-            </div>
+
             <Favorite />
+            <Button
+              size="md"
+              fontSize="md"
+              onClick={() => {
+                if (langs === 'en') {
+                  i18n.changeLanguage('рус');
+                  SetLangs('рус');
+                } else {
+                  i18n.changeLanguage('en');
+                  SetLangs('en');
+                }
+              }}
+            >
+              {langs==='en'?('рус'):('en')}
+            </Button>
             <ColorModeSwitcher mr={5} />
           </HStack>
         </Flex>

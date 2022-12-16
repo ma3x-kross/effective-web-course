@@ -24,7 +24,7 @@ i18next.use(initReactI18next).init({
         emptyFavorites: "There's nothing here, yet("
       }
     },
-    ru: {
+    рус: {
       translation: {
         characters: 'персонажи',
         comics: 'комиксы',
