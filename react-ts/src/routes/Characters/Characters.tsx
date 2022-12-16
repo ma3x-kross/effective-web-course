@@ -20,7 +20,7 @@ const Characters: FC = () => {
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -91,7 +91,6 @@ const Characters: FC = () => {
         });
       }
     }
-    console.log(hasNext);
   }, [setCharacters, offset, searchValue]);
 
   useEffect(() => {
@@ -114,7 +113,6 @@ const Characters: FC = () => {
         nameStartsWith: searchValue,
         offset
       }).then((res) => {
-        console.log(res);
         if (res.total === 0) {
           setResult(false);
         } else {
@@ -126,7 +124,6 @@ const Characters: FC = () => {
         }
       });
     }
-    console.log(hasNext);
   }, [searchValue]);
 
   const height = window.innerHeight;
@@ -170,7 +167,9 @@ const Characters: FC = () => {
             justifyContent: 'center'
           }}
         >
-          <Text fontWeight={600} fontSize="xl">The data is ended</Text>
+          <Text fontWeight={600} fontSize="xl">
+            {t('end')}
+          </Text>
         </div>
       );
     }
@@ -196,10 +195,7 @@ const Characters: FC = () => {
   };
   return (
     <Container maxW="container.xl" p={6}>
-      <Search
-        placeholder="charactersSearch"
-        pageName="characters"
-      />
+      <Search placeholder="charactersSearch" pageName="characters" />
       {result ? <Results /> : <NotFound />}
     </Container>
   );

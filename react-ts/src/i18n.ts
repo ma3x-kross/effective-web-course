@@ -21,7 +21,8 @@ i18next.use(initReactI18next).init({
         relatedSeries: 'Related series',
         relatedCharacters: 'Related characters',
         favorites: 'favorites',
-        emptyFavorites: "There's nothing here, yet("
+        emptyFavorites: "There's nothing here, yet(",
+        end: 'The data is ended'
       }
     },
     рус: {
@@ -40,7 +41,8 @@ i18next.use(initReactI18next).init({
         relatedSeries: 'Связанные серии',
         relatedCharacters: 'Связанные персонажи',
         favorites: 'избранное',
-        emptyFavorites: 'Здесь пока ничего нет('
+        emptyFavorites: 'Здесь пока ничего нет(',
+        end: 'Данные закончились'
       }
     }
   }

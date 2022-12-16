@@ -20,7 +20,7 @@ const Comics: FC = () => {
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
 
-   const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -91,7 +91,6 @@ const Comics: FC = () => {
         });
       }
     }
-    console.log(hasNext);
   }, [setComics, offset, searchValue]);
 
   useEffect(() => {
@@ -114,7 +113,6 @@ const Comics: FC = () => {
         titleStartsWith: searchValue,
         offset
       }).then((res) => {
-        console.log(res);
         if (res.total === 0) {
           setResult(false);
         } else {
@@ -124,14 +122,12 @@ const Comics: FC = () => {
             setHasNext(false);
           }
         }
-        console.log(res)
       });
     }
-    console.log(hasNext);
   }, [searchValue]);
 
   const height = window.innerHeight;
-  
+
   const Results = () => {
     return (
       <VirtuosoGrid
@@ -172,7 +168,7 @@ const Comics: FC = () => {
           }}
         >
           <Text fontWeight={600} fontSize="xl">
-            The data is ended
+            {t('end')}
           </Text>
         </div>
       );
@@ -199,14 +195,10 @@ const Comics: FC = () => {
   };
   return (
     <Container maxW="container.xl" p={6}>
-      <Search
-        placeholder="comicsSearch"
-        pageName="comics"
-      />
+      <Search placeholder="comicsSearch" pageName="comics" />
       {result ? <Results /> : <NotFound />}
     </Container>
   );
-  
 };
 
 export default observer(Comics);

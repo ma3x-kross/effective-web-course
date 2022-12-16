@@ -20,7 +20,7 @@ const Series: FC = () => {
   const [hasNext, setHasNext] = useState<boolean>(true);
   const [result, setResult] = useState<boolean>(false);
 
-   const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -91,7 +91,6 @@ const Series: FC = () => {
         });
       }
     }
-    console.log(hasNext);
   }, [setSeries, offset, searchValue]);
 
   useEffect(() => {
@@ -114,7 +113,6 @@ const Series: FC = () => {
         titleStartsWith: searchValue,
         offset
       }).then((res) => {
-        console.log(res);
         if (res.total === 0) {
           setResult(false);
         } else {
@@ -126,7 +124,6 @@ const Series: FC = () => {
         }
       });
     }
-    console.log(hasNext);
   }, [searchValue]);
 
   const height = window.innerHeight;
@@ -171,7 +168,7 @@ const Series: FC = () => {
           }}
         >
           <Text fontWeight={600} fontSize="xl">
-            The data is ended
+            {t('end')}
           </Text>
         </div>
       );
@@ -198,10 +195,7 @@ const Series: FC = () => {
   };
   return (
     <Container maxW="container.xl" p={6}>
-      <Search
-        placeholder="seriesSearch"
-        pageName="series"
-      />
+      <Search placeholder="seriesSearch" pageName="series" />
       {result ? <Results /> : <NotFound />}
     </Container>
   );
