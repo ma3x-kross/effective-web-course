@@ -19,7 +19,9 @@ i18next.use(initReactI18next).init({
           "Page not found, perhaps it is the consequences of Thanos' snap",
         relatedComics: 'Related comics',
         relatedSeries: 'Related series',
-        relatedCharacters: 'Related characters'
+        relatedCharacters: 'Related characters',
+        favorites: 'favorites',
+        emptyFavorites: "There's nothing here, yet("
       }
     },
     ru: {
@@ -36,7 +38,9 @@ i18next.use(initReactI18next).init({
           'Страница не найдена, возможно, это последствия щелчка Таноса',
         relatedComics: 'Связанные комиксы',
         relatedSeries: 'Связанные серии',
-        relatedCharacters: 'Связанные персонажи'
+        relatedCharacters: 'Связанные персонажи',
+        favorites: 'избранное',
+        emptyFavorites: 'Здесь пока ничего нет('
       }
     }
   }

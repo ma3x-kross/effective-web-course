@@ -10,15 +10,16 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import Logo from 'assets/marvel_logo.svg';
 import { NavLink } from 'react-router-dom';
-import {useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+import Favorite from 'components/Favorite';
 
 const lngs = {
-  en: {nativeName: 'Eng'},
-  ru: {nativeName: 'Рус'}
-}
+  en: { nativeName: 'Eng' },
+  ru: { nativeName: 'Рус' }
+};
 
 const Header = () => {
-  const {t, i18n} = useTranslation()
+  const { t, i18n } = useTranslation();
 
   const { colorMode } = useColorMode();
 
@@ -59,7 +60,7 @@ const Header = () => {
             <div>
               {Object.keys(lngs).map((lng) => (
                 <Button
-                fontSize='lg'
+                  fontSize="lg"
                   key={lng}
                   onClick={() => i18n.changeLanguage(lng)}
                   disabled={i18n.resolvedLanguage === lng}
@@ -68,6 +69,7 @@ const Header = () => {
                 </Button>
               ))}
             </div>
+            <Favorite />
             <ColorModeSwitcher mr={5} />
           </HStack>
         </Flex>
