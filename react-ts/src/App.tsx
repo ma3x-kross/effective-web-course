@@ -10,6 +10,7 @@ import ComicsInfo from 'routes/ComicsInfo';
 import Series from 'routes/Series';
 import SeriesInfo from 'routes/SeriesInfo';
 import NotFound from 'routes/NotFound';
+import Favorites from 'routes/FavoritesPage';
 
 const App: FC = () => {
   const routes: RouteObject[] = [
@@ -44,6 +45,10 @@ const App: FC = () => {
         {
           path: '/series/:id',
           element: <SeriesInfo />
+        },
+        {
+          path: '/favorites',
+          element: <Favorites />
         },
         {
           path: '*',

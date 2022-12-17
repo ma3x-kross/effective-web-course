@@ -1,6 +1,7 @@
 import { Input } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import characterStore from 'store/Character';
 import comicsStore from 'store/Comics';
 import seriesStore from 'store/Series';
@@ -14,47 +15,29 @@ interface SearchProps {
 const Search: FC<SearchProps> = ({ placeholder, pageName }) => {
   {
     const [inputSearchValue, setInputSearchValue] = useState('');
-    const debouncedSearchValue = useDebounce(inputSearchValue, 1000);
+    const debouncedSearchValue: string = useDebounce(inputSearchValue, 1000);
+
+     const { t } = useTranslation();
 
     useEffect(() => {
-      if (debouncedSearchValue) {
-        characterStore.setPage(1)
+      if (debouncedSearchValue || debouncedSearchValue === '') {
         switch (pageName) {
           case 'characters':
             {
-              characterStore.getCharactersByName(debouncedSearchValue, 0);
+              characterStore.setOffset(0);
+              characterStore.setSearchValue(debouncedSearchValue);
             }
             break;
           case 'comics':
             {
-              comicsStore.getComicsByName(debouncedSearchValue, 0);
+              comicsStore.setOffset(0);
+              comicsStore.setSearchValue(debouncedSearchValue);
             }
             break;
           case 'series':
             {
-              seriesStore.getSeriesByName(debouncedSearchValue, 0);
-            }
-            break;
-          default: {
-            break;
-          }
-        }
-      }
-      if (debouncedSearchValue === '') {
-        switch (pageName) {
-          case 'characters':
-            {
-              characterStore.getCharacters(0);
-            }
-            break;
-          case 'comics':
-            {
-              comicsStore.getAllComics(0);
-            }
-            break;
-          case 'series':
-            {
-              seriesStore.getAllSeries(0);
+              seriesStore.setOffset(0);
+              seriesStore.setSearchValue(debouncedSearchValue)
             }
             break;
           default: {
@@ -73,7 +56,7 @@ const Search: FC<SearchProps> = ({ placeholder, pageName }) => {
         mb="6"
         size="lg"
         variant="filled"
-        placeholder={placeholder}
+        placeholder={t(placeholder)}
         value={inputSearchValue}
         onChange={handleInputChange}
       />

@@ -4,13 +4,24 @@ import {
   Image,
   Flex,
   useColorMode,
-  HStack
+  HStack,
+  Button
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-
 import Logo from 'assets/marvel_logo.svg';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Favorite from 'components/Favorite';
+import { useState } from 'react';
+
+import characterStore from 'store/Character';
+import comicsStore from 'store/Comics';
+import seriesStore from 'store/Series';
+
 const Header = () => {
+  const [langs, SetLangs] = useState('en');
+  const { t, i18n } = useTranslation();
+
   const { colorMode } = useColorMode();
 
   const pages = ['characters', 'comics', 'series'];
@@ -40,13 +51,47 @@ const Header = () => {
                 textTransform="uppercase"
               >
                 <NavLink
-                  to={'/' +  page}
+                  onClick={() => {
+                    switch (page) {
+                      case 'characters':
+                        {
+                          characterStore.setOffset(0);
+                        }
+                        break;
+                      case 'comics':
+                        {
+                          comicsStore.setOffset(0);
+                        }
+                        break;
+                      case 'series': {
+                        seriesStore.setOffset(0);
+                      }
+                    }
+                  }}
+                  to={'/' + page}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  {page}
+                  {t(page)}
                 </NavLink>
               </Box>
             ))}
+
+            <Favorite />
+            <Button
+              size="md"
+              fontSize="md"
+              onClick={() => {
+                if (langs === 'en') {
+                  i18n.changeLanguage('рус');
+                  SetLangs('рус');
+                } else {
+                  i18n.changeLanguage('en');
+                  SetLangs('en');
+                }
+              }}
+            >
+              {langs === 'en' ? 'рус' : 'en'}
+            </Button>
             <ColorModeSwitcher mr={5} />
           </HStack>
         </Flex>

@@ -16,11 +16,14 @@ import seriesStore from 'store/Series';
 import { observer } from 'mobx-react-lite';
 import { BASE_URL, CHARACTERS, COMICS, HTTP } from 'constants/api';
 import NotFound from 'routes/NotFound';
+import { useTranslation } from 'react-i18next';
 
 const SeriesInfo: FC = () => {
   const { oneSeries, isLoading } = seriesStore;
   const { id } = useParams();
 
+  const { t } = useTranslation();
+  
   useEffect(() => {
     if (id) {
       const numberId = parseInt(id, 10);
@@ -48,7 +51,7 @@ const SeriesInfo: FC = () => {
               <Heading>{oneSeries.title}</Heading>
               <Text mb={3}>{oneSeries.description}</Text>
               <Divider />
-              <Heading size="md">Related characters</Heading>
+              <Heading size="md">{t('relatedCharacters')}</Heading>
               <SimpleGrid columns={2} spacingX="6" spacingY="2">
                 {oneSeries.characters?.items?.map((character) => (
                   <Link
@@ -63,7 +66,7 @@ const SeriesInfo: FC = () => {
                 ))}
               </SimpleGrid>
               <Divider />
-              <Heading size="md">Related comics</Heading>
+              <Heading size="md">{t('relatedComics')}</Heading>
               <SimpleGrid columns={2} spacingX="6" spacingY="2">
                 {oneSeries.comics?.items?.map((item) => (
                   <Link

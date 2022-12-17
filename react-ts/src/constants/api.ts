@@ -10,8 +10,8 @@ export const COMICS = 'comics';
 export const SERIES = 'series';
 
 // api key
-export const PUBLIC_API_KEY = '77dad6bc00e881aa0f996e14cba18748';
-const PRIVATE_API_KEY = '7542af24d02a0f3d027ff5c9e65d224fedb8bbca';
+export const PUBLIC_API_KEY = '0fc1b27f5fb9203e789251910bcb451c';
+const PRIVATE_API_KEY = '82e7833f151f751a613f9f5321c9535a4b30529d';
 
 export const TS = Date.now();
 export const HASH = md5(`${TS}${PRIVATE_API_KEY}${PUBLIC_API_KEY}`);

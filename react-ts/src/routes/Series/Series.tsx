@@ -1,62 +1,204 @@
-import { Center, Container, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
+import { Button, Container, Spinner, Text } from '@chakra-ui/react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import MyCard from 'components/MyCard';
 import Search from 'components/Search';
 import { ISeries } from 'types/series';
-import seriesStore from 'store/Series'
 import { observer } from 'mobx-react-lite';
-import Pagination from 'components/Pagination';
+import seriesStore from 'store/Series';
+import { VirtuosoGrid } from 'react-virtuoso';
+import { ItemContainer, ListContainer } from 'components/GridComponent';
+import { getApiResource } from 'api/network';
+import NotFound from 'routes/NotFound';
 import { SERIES } from 'constants/api';
+import { useTranslation } from 'react-i18next';
 
 const Series: FC = () => {
-  const {series, isLoading, currentPage, searchValue} = seriesStore
+  const { searchValue, offset } = seriesStore;
 
-  useEffect(()=>{
-    if (searchValue) {
-      seriesStore.getSeriesByName(searchValue, currentPage - 1);
+  const [series, setSeries] = useState<ISeries[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasNext, setHasNext] = useState<boolean>(true);
+  const [result, setResult] = useState<boolean>(false);
+
+  const { t } = useTranslation();
+
+  const loadMore = useCallback(async () => {
+    setLoading(true);
+    setHasNext(true);
+    seriesStore.setOffset(offset + 20);
+    if (!searchValue) {
+      if (offset === 0) {
+        getApiResource({ url: SERIES, offset }).then((res) => {
+          if (res.total === 0) {
+            setResult(false);
+          } else {
+            setResult(true);
+            setSeries(res.results);
+            setLoading(false);
+            if (res.count < 20) {
+              setHasNext(false);
+            }
+          }
+        });
+      } else {
+        getApiResource({ url: SERIES, offset }).then((res) => {
+          if (res.total === 0) {
+            setResult(false);
+          } else {
+            setResult(true);
+            setSeries((prevState) => [...prevState, ...res.results]);
+            setLoading(false);
+            if (res.count < 20) {
+              setHasNext(false);
+            }
+          }
+        });
+      }
     } else {
-      seriesStore.getAllSeries(currentPage - 1);
+      if (offset === 0) {
+        getApiResource({
+          url: 'series',
+          titleStartsWith: searchValue,
+          offset
+        }).then((res) => {
+          if (!res) {
+            setResult(false);
+          } else {
+            setResult(true);
+            setSeries(res.results);
+            setLoading(false);
+            if (res.count < 20) {
+              setHasNext(false);
+            }
+          }
+        });
+      } else {
+        getApiResource({
+          url: SERIES,
+          titleStartsWith: searchValue,
+          offset
+        }).then((res) => {
+          if (res.total === 0) {
+            setResult(false);
+          } else {
+            setResult(true);
+            setSeries((prevState) => [...prevState, ...res.results]);
+            setLoading(false);
+            if (res.count < 20) {
+              setHasNext(false);
+            }
+          }
+        });
+      }
     }
+  }, [setSeries, offset, searchValue]);
 
-  }, [currentPage])
+  useEffect(() => {
+    setHasNext(true);
+    if (!searchValue) {
+      getApiResource({ url: SERIES, offset }).then((res) => {
+        if (res.total === 0) {
+          setResult(false);
+        } else {
+          setResult(true);
+          setSeries(res.results);
+          if (res.count < 20) {
+            setHasNext(false);
+          }
+        }
+      });
+    } else {
+      getApiResource({
+        url: SERIES,
+        titleStartsWith: searchValue,
+        offset
+      }).then((res) => {
+        if (res.total === 0) {
+          setResult(false);
+        } else {
+          setResult(true);
+          setSeries(res.results);
+          if (res.count < 20) {
+            setHasNext(false);
+          }
+        }
+      });
+    }
+  }, [searchValue]);
 
+  const height = window.innerHeight;
+
+  const Results = () => {
     return (
-      <Container maxW="container.xl" p={6}>
-        <Search placeholder="Search for Series by name" pageName="series" />
-        {isLoading === true ? (
-          <Center>
-            <Spinner size="xl" thickness="4px"></Spinner>
-          </Center>
-        ) : (
-          <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
-            {series.results.map(
-              ({
-                id,
-                title,
-                description,
-                thumbnail: { extension, path }
-              }: ISeries) => (
-                <MyCard
-                  key={id}
-                  id={id}
-                  name={title}
-                  description={description}
-                  img={`${path}.${extension}`}
-                  path="/series/"
-                ></MyCard>
-              )
-            )}
-          </SimpleGrid>
-        )}
-        <Center>
-          <Pagination
-            totalCards={series.total}
-            currentPage={currentPage}
-            pageName={SERIES}
-          />
-        </Center>
-      </Container>
+      <VirtuosoGrid
+        context={{ loadMore, loading }}
+        style={{ width: '100% ', height: height }}
+        useWindowScroll
+        data={series}
+        totalCount={20}
+        overscan={200}
+        components={{
+          List: ListContainer,
+          Item: ItemContainer,
+          Footer: Footer
+        }}
+        itemContent={(index: number, seriesItem: ISeries) => {
+          return (
+            <MyCard
+              id={seriesItem.id}
+              name={seriesItem.title}
+              description={seriesItem.description}
+              img={`${seriesItem.thumbnail.path}.${seriesItem.thumbnail.extension}`}
+              path="/series/"
+            ></MyCard>
+          );
+        }}
+      ></VirtuosoGrid>
     );
+  };
+
+  const Footer = ({ context: { loadMore, loading } }: any) => {
+    if (!hasNext) {
+      return (
+        <div
+          style={{
+            padding: '2rem',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <Text fontWeight={600} fontSize="xl">
+            {t('end')}
+          </Text>
+        </div>
+      );
+    }
+    return (
+      <div
+        style={{
+          padding: '2rem',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        <>
+          {loading ? (
+            <Spinner size="lg" thickness="4px"></Spinner>
+          ) : (
+            <Button size="lg" disabled={loading} onClick={loadMore}>
+              {t('loadMore')}
+            </Button>
+          )}
+        </>
+      </div>
+    );
+  };
+  return (
+    <Container maxW="container.xl" p={6}>
+      <Search placeholder="seriesSearch" pageName="series" />
+      {result ? <Results /> : <NotFound />}
+    </Container>
+  );
 };
 
 export default observer(Series);
